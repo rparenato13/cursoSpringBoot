@@ -2,6 +2,7 @@ package com.example.cursoSpringBoot.resources.exceptions;
 
 import java.time.Instant;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -71,6 +72,21 @@ public class ResourcesExceptionHandler {
 				e.getMessage(),
 				e.getCause() != null ? e.getCause().getMessage() : "" ,
 				request.getRequestURI()
+				);
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<StandardError> entityNotFoundException(EntityNotFoundException e, HttpServletRequest request ) {
+		String error = "Unable to find User";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(
+				Instant.now(), 
+				status.value(),
+				error,
+				e.getMessage(),
+				e.getCause() != null ? e.getCause().getMessage() : "" ,
+						request.getRequestURI()
 				);
 		return ResponseEntity.status(status).body(err);
 	}

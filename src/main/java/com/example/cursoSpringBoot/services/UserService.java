@@ -45,7 +45,6 @@ public class UserService {
 		User entity = userRepository.getOne(id);
 		updateData(entity, obj);
 		return userRepository.save(entity);
-		
 	}
 
 	private void updateData(User entity, User obj) {
